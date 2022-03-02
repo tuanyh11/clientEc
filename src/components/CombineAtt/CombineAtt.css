@@ -1,0 +1,41 @@
+.combineOption {
+    margin-top: 1rem;
+}
+
+.combineOption .group {
+    display: flex;
+    align-items: center;
+}
+
+.combineOption > .group {
+    padding: 1rem 0;
+}
+
+.combineOption > .group > .group{
+    margin-right: 2rem;
+}
+
+.combineOption > .group > .group span{
+    font-size: 1.4rem;
+    margin-right: 1rem;
+}
+
+.combineOption > .group > .group input {
+    cursor: pointer;
+}
+
+.combineOption .group .optionName {
+    font-size: 1.6rem;
+    text-transform: capitalize;
+    margin-right: 1rem;
+    min-width: 8rem;
+}
+
+.combineOption button {
+    margin-top: 0.5rem;
+}
+
+.combineOption table input {
+    padding: 1rem;
+    border-radius: 1rem;
+}

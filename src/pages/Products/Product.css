@@ -1,0 +1,23 @@
+.createproduct .product .productImage img {
+    width: 100%;
+    object-fit: cover;
+}
+
+.createproduct .product .productInfo h2 {
+    padding: 2rem 0;
+}
+
+.createproduct .product .productInfo p {
+    font-size: 1.2rem;
+}
+
+.attributePage .button button{
+    padding: 1rem;
+    border-radius: 1rem;
+    background-color: var(--main-color);
+    color: var(--txt-white);
+}
+
+.attributePage .button button:hover {
+    background-color: var(--second-color-blue);
+}

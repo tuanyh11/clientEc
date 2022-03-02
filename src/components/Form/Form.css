@@ -1,0 +1,61 @@
+.form {
+
+}
+
+.form .group {
+    display: flex;
+    flex-direction: column;
+    padding: 1rem 0;
+}
+
+.form .group span {
+    font-size: 1.4rem;
+    margin-bottom: 0.5rem;
+    text-transform: capitalize;
+    font-weight: 600;
+}
+
+.form .group select {
+    padding: 1rem;
+    box-shadow: var(--box-shadow);
+    border-radius: 1rem;
+}
+
+.form .group select:focus {
+    border: 0.2rem solid var(--main-color);
+}
+
+.form .group input {
+    padding: 1rem;
+    box-shadow: var(--box-shadow);
+    border-radius: 1rem;
+}
+
+.form  button {
+    padding: 1rem;
+    margin-top: 1rem;
+    background-color: var(--main-color);
+    color: var(--txt-white);
+    border-radius: 1rem;
+}
+
+.form  button:hover{
+    background-color: var(--second-color-blue);
+}
+
+.form .formAdditon {
+    display: flex;
+    justify-content: center;
+    text-transform: capitalize;
+}
+
+.form .formAdditon button {
+    text-transform: capitalize;
+}
+
+.form .formSuggest {
+    margin-top: 2rem;
+    font-size: 1.4rem;
+    text-transform: capitalize;
+}
+

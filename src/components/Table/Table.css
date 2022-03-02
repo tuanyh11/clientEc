@@ -1,0 +1,81 @@
+.tableWrapper {
+    overflow-y: auto;
+}
+
+.tableWrapper.tableWrapperSroll {
+    overflow-y: scroll;
+    max-height: 40rem;
+}
+
+table {
+    width: 100%;
+    min-width: 40rem;
+    border-spacing: 0;
+}
+
+thead {
+    background-color: var(--second-bg);
+    font-size: 1.4rem;
+    text-align: center;
+}
+
+tr {
+    text-align: left;
+}
+
+th, td {
+    text-transform: capitalize;
+    padding: 1.5rem 1rem;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+tbody > tr {
+    font-size: 1.2rem;
+}
+
+tbody > tr a {
+    display: block;
+}
+
+tbody > tr:hover {
+    background-color: var(--main-color);
+    color: var(--txt-white);
+    cursor: pointer;
+    border-radius: var(--border-radius);
+}
+
+.tablePagination {
+    display: flex;
+    width: 100%;
+    justify-content: flex-end;
+    align-items: center;
+    margin-top: 2rem;
+}
+
+.tablePaginationItem ~ tablePaginationItem {
+    margin-left: 1rem;
+}
+
+.tablePaginationItem {
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    cursor: pointer;
+    align-items: center;
+}
+
+.tablePaginationItem.active,
+.tablePaginationItem.active:hover {
+    background-color: var(--main-color);
+    color: var(--txt-white);
+    font-weight: 600;
+}
+
+.tablePaginationItem:hover {
+    color: var(--txt-white);
+    background-color: var(--second-color);
+}
