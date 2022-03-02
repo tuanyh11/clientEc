@@ -5,12 +5,12 @@ import Table from '../../components/Table/Table';
 import './Category.css'
 
 const Category = () => {
-    const [category, setCategory] = useState({category: ''});
+    const [category, setCategory] = useState({name: ''});
     const [isSubmit, setIsSubmit] = useState(true);
     const [showCategory, setShowCategory] = useState([]);
     const inputs = [
         {
-            name: 'category',
+            name: 'name',
             titleInput: 'category',
             placeholder: 'type in here',
         }
@@ -23,7 +23,7 @@ const Category = () => {
     const renderInput = (item, index) => (
         <div className="group" key={index}>
             <span>{item.titleInput}</span>
-            <input type="text" value={category.category ? category.category: ''} name={item.name} placeholder={item.placeholder} onChange={hanleInput}/>
+            <input type="text" value={category.name ? category.name: ''} name={item.name} placeholder={item.placeholder} onChange={hanleInput}/>
         </div>
     )
 
@@ -40,11 +40,10 @@ const Category = () => {
                 };
            } else {
                 const result = await axios.patch(`http://localhost:5000/api/category/${category.id}`, category);
-               console.log(result.data)
                 if(result.status === 200) {
                     setShowCategory([...showCategory.map((item, index) => item.id !== category.id ? item : result.data)]);
                     setCategory({});
-                    setIsSubmit(!isSubmit);
+                    setIsSubmit(true);
                 };
            }
         } catch (error) {
@@ -54,6 +53,8 @@ const Category = () => {
     const getCategories = async () => {
         try {
             const result = await axios.get('http://localhost:5000/api/category/');
+            console.log(result.data)
+
             if(result.status === 200) {
                 setShowCategory([...result.data]);
                 console.log(result.data)
@@ -75,8 +76,8 @@ const Category = () => {
     // button click 
 
     const hanleEditClick = (item) => {
-        setIsSubmit(!isSubmit);
-        setCategory({category: item.nameCategory, id: item.id});
+        setIsSubmit(false);
+        setCategory({name: item.name, id: item.id});
     }
 
     const hanleDeleteItem = async(item) => {
@@ -88,7 +89,7 @@ const Category = () => {
 
     const renderBody = (item, index) => (
         <tr key={index}>
-            <td>{item.nameCategory}</td>
+            <td>{item.name}</td>
             <td>{item.createdAt}</td>
             <td>{item.updatedAt}</td>
             <td style={{display: 'flex', alignItems: 'center'}}>
