@@ -91,7 +91,7 @@ const Createproduct = () => {
           <span>{item.titleInput}</span>
           <select onChange={hanleInput} name={item.name}>
             {category?.length > 0 ? (
-              category.map((item, index) => (<option key={index} value={item.id}>{item.nameCategory}</option>))
+              category.map((item, index) => (<option key={index} value={item.id}>{item.name}</option>))
             ): ''}
           </select>
         </div>
@@ -130,19 +130,19 @@ const Createproduct = () => {
     const formData = new FormData();
     console.log(infoProduct)
 
-    // for (const key in infoProduct) {
-    //   formData.append(key, infoProduct[key]);
-    // }
-    // try {
-    //   const res =  await axios.post(`http://localhost:5000/api/product/`, formData);
-    //   console.log(res.data.length > 0)
-    //   if(res.data.length > 0) {
-    //     setId(res.data[0].id)
-    //     setInfoProduct({})
-    //   };
-    // } catch (error) {
-    //   console.log(error);
-    // }
+    for (const key in infoProduct) {
+      formData.append(key, infoProduct[key]);
+    }
+    try {
+      const res =  await axios.post(`http://localhost:5000/api/product/`, formData);
+      console.log(res.data.length > 0)
+      if(res.data.length > 0) {
+        setId(res.data[0].id)
+        setInfoProduct({})
+      };
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   // get category

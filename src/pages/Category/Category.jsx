@@ -83,7 +83,7 @@ const Category = () => {
     const hanleDeleteItem = async(item) => {
         const result = await axios.delete(`http://localhost:5000/api/category/${item.id}`);
         if(result.status === 200) {
-            setShowCategory([...showCategory.filter((item) => item.id !== result.data.id)]);
+            setShowCategory([...showCategory.filter((category) => category.id !== item.id)]);
         }
     } 
 

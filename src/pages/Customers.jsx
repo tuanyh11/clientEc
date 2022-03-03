@@ -24,7 +24,7 @@ const Customers = () => {
         <td>{item.totalOrders}</td>
         <td>{item.totalSpend}</td>
         <td>{item.location}</td>
-        <td>
+        <td className='flex-wrap'>
           <Link to="/" className='action'>
             <button >
               <i className='bx bx-edit'></i>
