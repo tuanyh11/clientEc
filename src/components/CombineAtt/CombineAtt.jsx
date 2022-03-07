@@ -1,34 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import './CombineAtt.css';
 import Table from '../Table/Table';
+import axios from 'axios';
 
 const CombineAtt = (props) => {
     const [combineData, setCombineData] = useState([]);
-    useEffect(() => {
-        let initData = [];
-
-        for (let index = 0; index < props.attValue.length; index++) {
-            if(props.attValue.length === 1) {
-                props.attValue[index].values.forEach(item => {
-                    initData.push({
-                        name: `${item}`
-                    });
-                })
-            } 
-            if(props.attValue.length === 2 && index < 1) {
-                for (let i = 0; i < props.attValue[index].values.length; i++) {
-                    for (let j = 0; j < props.attValue[index + 1].values.length; j++) {
-                        initData.push({
-                            name: `${props.attValue[index].values[i]}-${props.attValue[index + 1].values[j]}`
-                            })
-                    }
-                }
-            }
-        }
-        setCombineData([...initData]);
-    }, [props.attValue.length])
-
-    console.log(combineData)
+    useEffect(() => { 
+        const combine = props.attValue.length > 0 ? props.attValue.map((item, index) => item.values).reduce((a, b) => a.reduce((c, d) => c.concat(b.map((e) => [].concat(d, e))), [])): [];
+        const data = combine.map((item, index) => Array.isArray(item) ? item.join('-'): item).map(element => {
+            return {value: element}
+        });
+        setCombineData([...data]);
+    }, [props.attValue.length]);
 
     const handleInputCombine = (e, index) => {
         const data = combineData.map((item, id) => {
@@ -53,7 +36,9 @@ const CombineAtt = (props) => {
 
     const renderBody = (item, index) => (
         <tr key={index}>
-            <td>{item.name}</td>
+            <td>
+                {item.value}
+            </td>
             <td>
                 <input type="text" name="price" id="" value={item.price ? item.price: ''}  onChange={(e) => handleInputCombine(e, index)}/>
             </td>
@@ -72,13 +57,18 @@ const CombineAtt = (props) => {
             item.quantity = combineData[0].quantity;
             return item;
         });
-        console.log(data)
         setCombineData([...data]);
+    }
+
+    // submit
+
+    const submitData = () => {
+        // axios.post('')
     }
 
   return (
     <div>
-        <form action="" className="row">
+        <div className="row">
             <div className="col-12 " >
                 <button className="mainButton" type="button" onClick={() => buttonAllSame()}>All the same</button>
             </div>
@@ -89,9 +79,9 @@ const CombineAtt = (props) => {
                     bodyData={combineData}
                     renderBody={renderBody}
                 />
-                <button className="mainButton">Create</button>
+                <button className="mainButton" onClick={submitData}>Create</button>
             </div>
-        </form>
+        </div>
     </div>
   )
 }

@@ -5,6 +5,7 @@ import {Link} from 'react-router-dom';
 import './Product.css'
 import Table from '../../components/Table/Table';
 import Select from 'react-select';
+import Attributes from './Attributes';
 
 const Createproduct = () => {
   const [infoProduct, setInfoProduct] = useState({});
@@ -108,21 +109,10 @@ const Createproduct = () => {
       )
     }
   }
-  
 
-  const renderButtonSubmit = () => (<button type="submit">create</button>)
-  
-  const renderNavigation = () => {
-    if(id) {
-      return <Link to={`/attributes/${id}`}><span >if you want your product have mutiple attributes click here</span></Link>
-    }
-    return '';
-  }
+  const renderButtonSubmit = () => <button type='submit'>Create</button>
 
-
-  // Table info
-
-  const headData = ['image', 'discripton', ]
+  const renderNavigation = () => id && <Link to={`attributes/${id}`}><button>If you have product variant click here</button></Link>
 
   // submit product
   const hanleSubmit = async(e) => {
@@ -153,7 +143,6 @@ const Createproduct = () => {
       console.log(result.data)
       if(result.status === 200) {
         setCategory([...result.data]);
-        console.log(category)
       }
     } catch (error) {
       console.log(error)
@@ -176,8 +165,8 @@ const Createproduct = () => {
                       dataForm={inputs}
                       renderInput={(item, index) => renderInput(item, index)}
                       hanleSubmit={hanleSubmit}
-                      renderNavigation={() => renderNavigation()}
-                      renderButtonSubmit={() => renderButtonSubmit()}
+                      renderButtonSubmit={renderButtonSubmit}
+                      renderNavigation={renderNavigation}
                     />
                 </div>
             </div>

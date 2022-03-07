@@ -22,6 +22,11 @@ const Attributes = () => {
 
     const [inputAttValues, setInputAttValues] = useState([]);
 
+    const [formData, setFormData] = useState([]);
+    
+
+    // const [combineData, setCombineData] = useState([]),
+
     const setValueForm = (e) => {
         const {value, name} = e.target;
         setAttData({...attData, [name]: value})
@@ -55,15 +60,20 @@ const Attributes = () => {
         setAttData({...attData, [e.target.name]: [...data]})
     }
 
-
     const renderInputAtt = ( item ,index) => (
         <div className="group" key={index}>
             <span>attribute value</span>
             <input type="text" name='values' placeholder='type in here' value={attData.values[index] ? attData.values[index]: ''} onChange={(e) => setInputFormValue(e, index)}/>
         </div>
     )
+    
+    const createAttributes = () => {
+        setAttValue([...attValue, attData]);
+        setAttData(initData);
+        setInputAttValues([]);
+    }
 
-    const renderButtonSubmit = () => (<button type="submit">create</button>);
+    const renderButtonSubmit = () => (<button type="button" onClick={() => createAttributes()}>create</button>);
 
     const handleIncInput = () => {
         setInputAttValues([...inputAttValues, 0]);
@@ -86,22 +96,20 @@ const Attributes = () => {
     )
 
 
-    const createItem = async () => {
-        try {
-            const result = await axios.post('http://localhost:5000/api/attribute/', attData);
-            setIsSubmit(!isSubmit);
-            setAttData(initData);
+    // const createItem = async () => {
+    //     try {
+    //         const result = await axios.post('http://localhost:5000/api/attribute/', attData);
+    //         setIsSubmit(!isSubmit);
+    //         setAttData(initData);
             
-        } catch (error) {
-            console.log(error);
-        }
-    }
-
-    console.log(attData)
+    //     } catch (error) {
+    //         console.log(error);
+    //     }
+    // }
 
     const hanleSubmit = async(e) => {
         e.preventDefault()
-        createItem();
+        // createItem();
     }
 
     const [combineData, setCombineData] = useState([])
@@ -117,7 +125,6 @@ const Attributes = () => {
 
     useEffect(() => {
         getItems();
-        console.log(1)
     },[isSubmit])
 
     
@@ -158,9 +165,6 @@ const Attributes = () => {
                         bodyData={attValue}
                         renderBody={(item, index) => renderBody(item, index)}
                     />
-                    <div className="button">
-                        <Link to={`/variant/${id.productId}`}><button>Go to Combine variant</button></Link>
-                    </div>
                 </div>
             </div>
             <div className="col-12">

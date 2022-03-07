@@ -4,7 +4,7 @@ import './Form.css';
 const Form = props => {
   return (
     <div className='form'>
-        <form action="" onSubmit={(e) => {props.hanleSubmit && props.hanleSubmit(e)}} encType="multipart/form-data">
+        <form action="" onSubmit={(e) => {props.hanleSubmit && props.hanleSubmit(e)}} >
             {props.dataForm && props.renderInput ? (
                 props.dataForm.map((item, index) => props.renderInput(item, index))
             ): ''}
