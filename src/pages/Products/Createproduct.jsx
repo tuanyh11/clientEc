@@ -75,8 +75,8 @@ const Createproduct = () => {
     }
   ]
 
-  const hanleInput = (e) => {
-    const {value, name, type, files} = e.target;
+  const hanleInput = (e) => { 
+    const {value, name,  files} = e.target;
     if(name === 'image') {
       const file = files[0];
       setInfoProduct({...infoProduct, [name]: file}); 
@@ -90,11 +90,11 @@ const Createproduct = () => {
       return (
         <div className="group" key={index}>
           <span>{item.titleInput}</span>
-          <select onChange={hanleInput} name={item.name}>
             {category?.length > 0 ? (
-              category.map((item, index) => (<option key={index} value={item.id}>{item.name}</option>))
+              <select onChange={hanleInput} name={item.name}>
+                {category.map((item, index) => (<option key={index} value={item.id}>{item.name}</option>))}
+              </select>
             ): ''}
-          </select>
         </div>
       )
     } else {
@@ -112,7 +112,7 @@ const Createproduct = () => {
 
   const renderButtonSubmit = () => <button type='submit'>Create</button>
 
-  const renderNavigation = () => id && <Link to={`attributes/${id}`}><button>If you have product variant click here</button></Link>
+  const renderNavigation = () => id && <Link to={`/attributes/${id}`}><button>If you have product variant click here</button></Link>
 
   // submit product
   const hanleSubmit = async(e) => {
@@ -125,9 +125,8 @@ const Createproduct = () => {
     }
     try {
       const res =  await axios.post(`http://localhost:5000/api/product/`, formData);
-      console.log(res.data.length > 0)
-      if(res.data.length > 0) {
-        setId(res.data[0].id)
+      if(Object.keys(res.data).length > 0) {
+        setId(res.data.id)
         setInfoProduct({})
       };
     } catch (error) {
@@ -140,9 +139,8 @@ const Createproduct = () => {
   const getCategory = async() => {
     try {
       const result = await axios.get('http://localhost:5000/api/category/');
-      console.log(result.data)
       if(result.status === 200) {
-        setCategory([...result.data]);
+        setCategory([...result.data.result]);
       }
     } catch (error) {
       console.log(error)

@@ -3,11 +3,12 @@ import Form from '../../components/Form/Form';
 import Table from '../../components/Table/Table';
 import CombineAtt from '../../components/CombineAtt/CombineAtt';
 import axios from 'axios';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, useNavigate } from 'react-router-dom';
 
 const Attributes = () => {
     const adMidId = localStorage.getItem('name');
     const id = useParams();
+    const navigate = useNavigate();
     const initData = {
         productId: id.productId,
         name: '',
@@ -38,6 +39,27 @@ const Attributes = () => {
             <input type="text" name={item.name} value={item.value} placeholder={item.placeholder} onChange={setValueForm}/>
         </div>
     );
+
+    // get Product Id 
+    const [productId, setProductId] = useState();
+
+    const getProductId = async() => {
+        try {
+            const result = await axios.get(`http://localhost:5000/api/product/${id.productId}`);
+            if(result.status === 200) {
+                setProductId(result.data.id);
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    useEffect(() => {
+        getProductId();
+        if((productId === id.productId)) {
+            navigate('/createproduct')
+        }
+    }, [id.productId])
 
     const inputs = [
         {
@@ -88,6 +110,8 @@ const Attributes = () => {
 
     const renderHead = (item, index) => (<th key={index}>{item}</th>)
 
+    // 
+
     const renderBody = (item, index) => (
         <tr key={index}>
             <td><Link to={`/attributes/${index}`}>{item.name}</Link></td>
@@ -95,17 +119,6 @@ const Attributes = () => {
         </tr>
     )
 
-
-    // const createItem = async () => {
-    //     try {
-    //         const result = await axios.post('http://localhost:5000/api/attribute/', attData);
-    //         setIsSubmit(!isSubmit);
-    //         setAttData(initData);
-            
-    //     } catch (error) {
-    //         console.log(error);
-    //     }
-    // }
 
     const hanleSubmit = async(e) => {
         e.preventDefault()
@@ -127,54 +140,57 @@ const Attributes = () => {
         getItems();
     },[isSubmit])
 
-    
-    console.log(attValue)
-
-    // combine value
 
   return (
     <div className="attributePage">
-        <h2 className="pageHeader">
-            Attributes
-        </h2>
-        <div className="row">
-            <div className="col-6">
-                <div className="card">
-                    <h3 className="title">
-                        Add new Attributes
-                    </h3>
-                    <p className='discription'>
-                    thuộc tính là một đặc tả định nghĩa đặc tính của một đối tượng, phần tử, hay tập tin. Nó còn có thể chỉ đến giá trị cho một thực thể cụ thể
-                    </p>
-                    <Form
-                        dataForm={inputs}
-                        renderInput={(item, index) => renderInput(item, index)}
-                        hanleSubmit={hanleSubmit}
-                        renderButtonSubmit={inputAttValues.length > 0 && attData.name? () => renderButtonSubmit(): ''}
-                        renderButton={() => renderButton()}
-                        inputAttValues={inputAttValues}
-                        renderInputAtt={(item, index) => renderInputAtt(item, index)}
-                    />
+        {
+             productId === Number(id.productId) ? (
+              <>
+                  <h2 className="pageHeader">
+                    Attributes
+                </h2>
+                <div className="row">
+                    <div className="col-6">
+                        <div className="card">
+                            <h3 className="title">
+                                Add new Attributes
+                            </h3>
+                            <p className='discription'>
+                            thuộc tính là một đặc tả định nghĩa đặc tính của một đối tượng, phần tử, hay tập tin. Nó còn có thể chỉ đến giá trị cho một thực thể cụ thể
+                            </p>
+                            <Form
+                                dataForm={inputs}
+                                renderInput={(item, index) => renderInput(item, index)}
+                                hanleSubmit={hanleSubmit}
+                                renderButtonSubmit={inputAttValues.length > 0 && attData.name? () => renderButtonSubmit(): ''}
+                                renderButton={() => renderButton()}
+                                inputAttValues={inputAttValues}
+                                renderInputAtt={(item, index) => renderInputAtt(item, index)}
+                            />
+                        </div>
+                    </div>
+                    <div className="col-6">
+                        <div className="card">
+                            <Table
+                                headData={attributeHead}
+                                renderHead={(item, index) => renderHead(item, index)}
+                                bodyData={attValue}
+                                renderBody={(item, index) => renderBody(item, index)}
+                            />
+                        </div>
+                    </div>
+                    <div className="col-12">
+                        <div className="card">
+                        <CombineAtt
+                                attValue={attValue}
+                                id={id.productId ? id.productId : ''}
+                        />
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <div className="col-6">
-                <div className="card">
-                    <Table
-                        headData={attributeHead}
-                        renderHead={(item, index) => renderHead(item, index)}
-                        bodyData={attValue}
-                        renderBody={(item, index) => renderBody(item, index)}
-                    />
-                </div>
-            </div>
-            <div className="col-12">
-                <div className="card">
-                   <CombineAtt
-                        attValue={attValue}
-                   />
-                </div>
-            </div>
-        </div>
+              </>
+            ): ''
+        }
     </div>
   )
 }

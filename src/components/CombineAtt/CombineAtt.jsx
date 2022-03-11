@@ -8,10 +8,10 @@ const CombineAtt = (props) => {
     useEffect(() => { 
         const combine = props.attValue.length > 0 ? props.attValue.map((item, index) => item.values).reduce((a, b) => a.reduce((c, d) => c.concat(b.map((e) => [].concat(d, e))), [])): [];
         const data = combine.map((item, index) => Array.isArray(item) ? item.join('-'): item).map(element => {
-            return {value: element}
+            return {value: element, productId: props.id}
         });
         setCombineData([...data]);
-    }, [props.attValue.length]);
+    }, [props.attValue.length, props.id]);
 
     const handleInputCombine = (e, index) => {
         const data = combineData.map((item, id) => {
@@ -27,7 +27,6 @@ const CombineAtt = (props) => {
             return combineData[id];
         })
         setCombineData([...data]);
-        console.log(combineData)
     }
 
     const headData = ['variant', 'price', 'quantity', 'image']
@@ -62,8 +61,16 @@ const CombineAtt = (props) => {
 
     // submit
 
-    const submitData = () => {
-        // axios.post('')
+    const submitData = async() => {
+        try {
+            const result =  await axios.post(`http://localhost:5000/api/attribute/`, props.attValue);
+            console.log(result.status === 200)
+            if(result.status === 200) {
+                await axios.post(`http://localhost:5000/api/combinevariant/${props.id}`, combineData);
+            }
+        } catch (error) {
+            console.log(error);
+        }
     }
 
   return (
