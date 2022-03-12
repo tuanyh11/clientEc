@@ -127,9 +127,6 @@ const Attributes = () => {
         getItems();
     },[isSubmit])
 
-    
-    console.log(attValue)
-
     // combine value
 
   return (
@@ -170,6 +167,7 @@ const Attributes = () => {
             <div className="col-12">
                 <div className="card">
                    <CombineAtt
+                        id={id.productId? id.productId: ''}
                         attValue={attValue}
                    />
                 </div>

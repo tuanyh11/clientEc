@@ -8,7 +8,7 @@ const CombineAtt = (props) => {
     useEffect(() => { 
         const combine = props.attValue.length > 0 ? props.attValue.map((item, index) => item.values).reduce((a, b) => a.reduce((c, d) => c.concat(b.map((e) => [].concat(d, e))), [])): [];
         const data = combine.map((item, index) => Array.isArray(item) ? item.join('-'): item).map(element => {
-            return {value: element}
+            return {value: element, productId: props.id}
         });
         setCombineData([...data]);
     }, [props.attValue.length]);
@@ -63,7 +63,8 @@ const CombineAtt = (props) => {
     // submit
 
     const submitData = () => {
-        // axios.post('')
+        console.log(combineData)
+        axios.post('http://localhost:5000/api/attribute/', combineData);
     }
 
   return (
