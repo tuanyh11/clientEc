@@ -4,7 +4,7 @@ import Form from '../../components/Form/Form';
 import Table from '../../components/Table/Table';
 import './Category.css'
 
-const Category = () => {
+const Category = () => { 
     const [category, setCategory] = useState({name: ''});
     const [isSubmit, setIsSubmit] = useState(true);
     const [showCategory, setShowCategory] = useState([]);
@@ -35,17 +35,18 @@ const Category = () => {
            if(isSubmit) {
                 const result = await axios.post('http://localhost:5000/api/category/', category);
                 if(result.status === 200) {
-                    setShowCategory([...showCategory, result.data]);
+                    setShowCategory([...showCategory, result.data.result]);
                     setCategory({});
                 };
            } else {
                 const result = await axios.patch(`http://localhost:5000/api/category/${category.id}`, category);
                 if(result.status === 200) {
-                    setShowCategory([...showCategory.map((item, index) => item.id !== category.id ? item : result.data)]);
+                    setShowCategory([...showCategory.map((item, index) => item.id !== category.id ? item : result.data.result)]);
+                    console.log(showCategory)
                     setCategory({});
                     setIsSubmit(true);
                 };
-           }
+           } 
         } catch (error) {
             console.log(error);
         }
@@ -53,11 +54,8 @@ const Category = () => {
     const getCategories = async () => {
         try {
             const result = await axios.get('http://localhost:5000/api/category/');
-            console.log(result.data)
-
             if(result.status === 200) {
-                setShowCategory([...result.data]);
-                console.log(result.data)
+                setShowCategory([...result.data.result]);
             }
         } catch (error) {
             console.log(error);
